@@ -3,22 +3,22 @@ from sorters.sorter import Sorter
 
 class SmoothSorter(Sorter):
     def _leonardo_numbers(num):
-        a, b = 1, 1
+        preprev, prev = 1, 1
         numbers = []
-        while a <= num:
-            numbers.append(a)
-            a, b = b, a + b + 1
+        while preprev <= num:
+            numbers.append(preprev)
+            preprev, prev = prev, preprev + prev + 1
         return numbers
 
-    def _restore_heap(lst, i, heap, leo_nums):
+    def _restore_heap(array, i, heap, leonardo_numbers):
         current = len(heap) - 1
         k = heap[current]
 
         while current > 0:
-            j = i - leo_nums[k]
-            if (lst[j] > lst[i] and
-                (k < 2 or lst[j] > lst[i-1] and lst[j] > lst[i-2])):
-                lst[i], lst[j] = lst[j], lst[i]
+            j = i - leonardo_numbers[k]
+            if (array[j] > array[i] and
+                (k < 2 or array[j] > array[i-1] and array[j] > array[i-2])):
+                array[i], array[j] = array[j], array[i]
                 i = j
                 current -= 1
                 k = heap[current]
@@ -26,30 +26,30 @@ class SmoothSorter(Sorter):
                 break
 
         while k >= 2:
-            t_r, k_r, t_l, k_l = SmoothSorter._get_child_trees(i, k, leo_nums)
-            if lst[i] < lst[t_r] or lst[i] < lst[t_l]:
-                if lst[t_r] > lst[t_l]:
-                    lst[i], lst[t_r] = lst[t_r], lst[i]
-                    i, k = t_r, k_r
+            t_right, k_right, t_left, k_left = SmoothSorter._get_child_trees(i, k, leonardo_numbers)
+            if array[i] < array[t_right] or array[i] < array[t_left]:
+                if array[t_right] > array[t_left]:
+                    array[i], array[t_right] = array[t_right], array[i]
+                    i, k = t_right, k_right
                 else:
-                    lst[i], lst[t_l] = lst[t_l], lst[i]
-                    i, k = t_l, k_l
+                    array[i], array[t_left] = array[t_left], array[i]
+                    i, k = t_left, k_left
             else:
                 break
 
-    def _get_child_trees(i, k, leo_nums):
-        t_r, k_r = i - 1, k - 2
-        t_l, k_l = t_r - leo_nums[k_r], k - 1
-        return t_r, k_r, t_l, k_l
+    def _get_child_trees(i, k, leonardo_numbers):
+        t_right, k_right = i - 1, k - 2
+        t_left, k_left = t_right - leonardo_numbers[k_right], k - 1
+        return t_right, k_right, t_left, k_left
 
 
     def run(self):
         if self.array is None:
             raise Exception("Array was not set")
-        
+
         time_start_ns = time.time_ns()
 
-        leo_nums = SmoothSorter._leonardo_numbers(len(self.array))
+        leonardo_numbers = SmoothSorter._leonardo_numbers(len(self.array))
 
         heap = []
 
@@ -62,17 +62,17 @@ class SmoothSorter(Sorter):
                     heap.append(0)
                 else:
                     heap.append(1)
-            SmoothSorter._restore_heap(self.array, i, heap, leo_nums)
+            SmoothSorter._restore_heap(self.array, i, heap, leonardo_numbers)
 
         for i in reversed(range(len(self.array))):
             if heap[-1] < 2:
                 heap.pop()
             else:
                 k = heap.pop()
-                t_r, k_r, t_l, k_l = SmoothSorter._get_child_trees(i, k, leo_nums)
-                heap.append(k_l)
-                SmoothSorter._restore_heap(self.array, t_l, heap, leo_nums)
-                heap.append(k_r)
-                SmoothSorter._restore_heap(self.array, t_r, heap, leo_nums)
-    
+                t_right, k_right, t_left, k_left = SmoothSorter._get_child_trees(i, k, leonardo_numbers)
+                heap.append(k_left)
+                SmoothSorter._restore_heap(self.array, t_left, heap, leonardo_numbers)
+                heap.append(k_right)
+                SmoothSorter._restore_heap(self.array, t_right, heap, leonardo_numbers)
+
         self.execution_time = (time.time_ns() - time_start_ns) / 1e9

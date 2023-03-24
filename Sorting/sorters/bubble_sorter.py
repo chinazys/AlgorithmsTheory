@@ -8,10 +8,10 @@ class BubbleSorter(Sorter):
         
         time_start_ns = time.time_ns()
 
-        for i in range(len(self.array) - 1) :
+        for i in range(len(self.array)):
             flag = False
 
-            for j in range(len(self.array) - 1):
+            for j in range(len(self.array) - i - 1):
                 if self.array[j] > self.array[j + 1] : 
                     self.array[j], self.array[j + 1] = self.array[j + 1], self.array[j]
                     flag = True

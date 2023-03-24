@@ -6,7 +6,7 @@ from sorters.heap_sorter import HeapSorter
 from sorters.smooth_sorter import SmoothSorter
 from util.array_generator import generate_array
 
-NUMBER_OF_MEASURES = 50
+NUMBER_OF_MEASURES = 25
 
 def _measure_sorter(sorter, array):
     sorter.reinitialize(array)

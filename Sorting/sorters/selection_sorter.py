@@ -11,7 +11,7 @@ class SelectionSorter(Sorter):
         for i in range(len(self.array) - 1):
             min_index = i
             
-            for j in range(i + 1, len(self.array) - 1):
+            for j in range(i + 1, len(self.array)):
                 if self.array[j] < self.array[min_index]:
                     min_index = j
 
