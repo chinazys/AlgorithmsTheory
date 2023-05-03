@@ -2,7 +2,7 @@ from util.array_type_enums import *
 from random import randint
 
 MIN_ARRAY_VALUE = 0
-MAX_ARRAY_VALUE = 1000000
+MAX_ARRAY_VALUE = 100000000
 
 def generate_array(array_type, array_length, min_array_value=MIN_ARRAY_VALUE, max_array_value=MAX_ARRAY_VALUE):
     assert array_length > 0
