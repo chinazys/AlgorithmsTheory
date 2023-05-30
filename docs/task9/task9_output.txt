@@ -1,0 +1,7 @@
+AVL Tree on Random Sequence: { 1 <- 2 <- 3 -> 4 <- 5 -> 6 <- 7 -> 8 <- 9 <- 10 -> 11 <- 12 -> 13 <- 14 -> 15 <- 16 -> 17 <- 18 -> 19 <- 20 -> 21 -> 22 <- 23 -> 24 }
+List of Leaves Heights on Random Sequence [5, 4, 4, 5, 4, 5, 5, 5, 5, 6, 5]
+Random sequence test passed: abs difference between any two AVL Tree leaves depth is not greater then 1
+
+AVL Tree on Ascending Sequence: { 1 <- 2 -> 3 <- 4 -> 5 <- 6 -> 7 <- 8 -> 9 <- 10 -> 11 <- 12 -> 13 <- 14 -> 15 <- 16 -> 17 <- 18 -> 19 <- 20 -> 21 <- 22 -> 23 -> 24 }
+List of Leaves Heights on Ascending Sequence: [5, 5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 5]
+Ascending sequence test passed: abs difference between any two AVL Tree leaves depth is not greater then 1
