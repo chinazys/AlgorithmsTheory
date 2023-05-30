@@ -48,22 +48,48 @@ class Node:
 class BST:
     def __init__(self) -> None:
         self.root = Node()
+
+    def get_disbalance_rate(self):
+        if self.root.subtree_length < 2:
+            return 0
+        return self._get_disbalance_rate(self.root)
     
-    def insert_as_leaf(self, key):
-        result = self._insert_as_leaf(self.root, key)
+    def _get_disbalance_rate(self, node: Node):
+        if node.left is None and node.right is None:
+            return 0
+        return max(0, abs(node.left.subtree_length - node.right.subtree_length) - 1) + self._get_disbalance_rate(node.left) + self._get_disbalance_rate(node.right)
+
+    def find(self, key,  node: Node=None) -> Node:
+        if node is None:
+            node = self.root
+
+        if node.key is None:
+            return None, 1
+        
+        if node.key > key:
+            node, height = self.find(key, node.left)
+            return node, height + 1
+        elif node.key < key:
+            node, height = self.find(key, node.right)
+            return node, height + 1
+        else:
+            return node, 1
+        
+    def insert(self, key):
+        result = self._insert(self.root, key)
         if not result:
             print('Key already present')
 
-    def _insert_as_leaf(self, node: Node, key):
+    def _insert(self, node: Node, key):
         if node.key is None:
             node.set_key(key)
             return True
         
         result = True
         if node.key > key:
-            result = self._insert_as_leaf(node.left, key)
+            result = self._insert(node.left, key)
         elif node.key < key:
-            result = self._insert_as_leaf(node.right, key)
+            result = self._insert(node.right, key)
         else:
             result = False
 
@@ -176,17 +202,17 @@ if __name__ == '__main__':
     b = BST()
     b.insert_as_root(11)
     print(b)
-    b.insert_as_leaf(15)
+    b.insert(15)
     print(b)
-    b.insert_as_leaf(7)
+    b.insert(7)
     print(b)
-    b.insert_as_leaf(17)
+    b.insert(17)
     print(b)
-    b.insert_as_leaf(9)
+    b.insert(9)
     print(b)
-    b.insert_as_leaf(2)
+    b.insert(2)
     print(b)
-    b.insert_as_leaf(16)
+    b.insert(16)
     print(b)
     b.delete_by_index(3)
     print(b)
@@ -196,3 +222,4 @@ if __name__ == '__main__':
     print(b)
     b.insert_as_root(8)
     print(b)
+    print(b.get_disbalance_rate())
